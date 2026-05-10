@@ -11,9 +11,13 @@ export function About() {
       />
       <FadeIn delay={0.4}>
         <p className="mt-10 max-w-2xl text-[var(--muted)] text-base md:text-lg leading-relaxed">
-          I&rsquo;m Mingyu Jung, a developer who occasionally designs. I build
-          the things I want to see exist — mostly as open-source projects, so
-          the work stays in the open.
+          I&rsquo;m Mingyu Jung{" "}
+          <span className="opacity-60">
+            (also known as GreenScreen410, pauljjang410)
+          </span>
+          , a developer who occasionally designs. I build the things I want to
+          see exist — mostly as open-source projects, so the work stays in the
+          open.
         </p>
       </FadeIn>
     </section>

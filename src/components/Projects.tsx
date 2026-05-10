@@ -46,10 +46,10 @@ function ProjectCard({ project }: { project: Project }) {
       target="_blank"
       rel="noopener noreferrer"
       whileHover="hover"
-      className="group block rounded-3xl overflow-hidden border hairline border-[var(--line)] bg-[var(--card)]"
+      className="group flex h-full flex-col rounded-3xl overflow-hidden border hairline border-[var(--line)] bg-[var(--card)]"
     >
       <div
-        className="relative aspect-[16/10] overflow-hidden"
+        className="relative aspect-[16/10] overflow-hidden shrink-0"
         style={{ background: project.gradient }}
       >
         <motion.div
@@ -65,7 +65,7 @@ function ProjectCard({ project }: { project: Project }) {
           {project.year}
         </span>
       </div>
-      <div className="p-6 md:p-8 flex items-end justify-between gap-6">
+      <div className="p-6 md:p-8 flex flex-1 items-start justify-between gap-6">
         <div>
           <h3 className="display text-2xl md:text-4xl">{project.name}</h3>
           <p className="mt-3 text-[var(--muted)] max-w-md text-sm md:text-base">
@@ -90,7 +90,7 @@ function Section({ title, items }: { title: string; items: Project[] }) {
       />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {items.map((p, i) => (
-          <Pop key={p.index} delay={i * 0.12}>
+          <Pop key={p.index} delay={i * 0.12} className="h-full">
             <ProjectCard project={p} />
           </Pop>
         ))}
