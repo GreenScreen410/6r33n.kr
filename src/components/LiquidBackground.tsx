@@ -7,7 +7,10 @@ export function LiquidBackground() {
   const [frame, setFrame] = useState(0);
 
   useEffect(() => {
-    setFrame(Math.random() * 1_000_000);
+    const frameId = requestAnimationFrame(() =>
+      setFrame(Math.random() * 1_000_000),
+    );
+    return () => cancelAnimationFrame(frameId);
   }, []);
 
   return (
@@ -23,17 +26,17 @@ export function LiquidBackground() {
           "#4C7D00",
           "#8ed970",
           "#0a4d05",
-          "#daf28a",
+          "#edf2c0",
           "#2d8c2d",
           "#a8e155",
-          "#08490a",
+          "#053b16",
         ]}
         distortion={1}
         swirl={1}
         grainMixer={0}
         grainOverlay={0}
-        speed={0.85}
-        scale={1.3}
+        speed={1.1}
+        scale={1.1}
         frame={frame}
         style={{
           position: "absolute",

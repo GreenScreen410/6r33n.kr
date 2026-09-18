@@ -12,6 +12,27 @@ function unwrap(value: string | undefined) {
   return value
     .replace(/^<!\[CDATA\[/, "")
     .replace(/\]\]>$/, "")
+    .replace(
+      /&(#x[0-9a-f]+|#\d+|amp|lt|gt|quot|apos);/gi,
+      (entity, key: string) => {
+        const named: Record<string, string> = {
+          amp: "&",
+          lt: "<",
+          gt: ">",
+          quot: '"',
+          apos: "'",
+        };
+        if (!key.startsWith("#")) return named[key.toLowerCase()] ?? entity;
+        const code = key.toLowerCase().startsWith("#x")
+          ? parseInt(key.slice(2), 16)
+          : parseInt(key.slice(1), 10);
+        return code > 0 &&
+          code <= 0x10ffff &&
+          !(code >= 0xd800 && code <= 0xdfff)
+          ? String.fromCodePoint(code)
+          : entity;
+      },
+    )
     .trim();
 }
 
@@ -24,9 +45,10 @@ function parseRss(xml: string): BlogPost[] {
     const link = unwrap(block.match(/<link>([\s\S]*?)<\/link>/)?.[1]);
     const pubDate = unwrap(block.match(/<pubDate>([\s\S]*?)<\/pubDate>/)?.[1]);
     const category = unwrap(
-      block.match(/<category>([\s\S]*?)<\/category>/)?.[1]
+      block.match(/<category>([\s\S]*?)<\/category>/)?.[1],
     );
-    if (title && link && pubDate) posts.push({ title, link, pubDate, category });
+    if (title && link && pubDate)
+      posts.push({ title, link, pubDate, category });
   }
   return posts;
 }
@@ -48,6 +70,6 @@ export function formatPubDate(pubDate: string): string {
   const d = new Date(pubDate);
   if (Number.isNaN(d.getTime())) return pubDate;
   return `${d.getFullYear()} · ${String(d.getMonth() + 1).padStart(2, "0")} · ${String(
-    d.getDate()
+    d.getDate(),
   ).padStart(2, "0")}`;
 }

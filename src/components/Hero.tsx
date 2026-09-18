@@ -48,12 +48,21 @@ export function Hero() {
     clickPhase === "folding"
       ? false
       : clickPhase === "unfolding"
-      ? true
-      : hovered;
+        ? true
+        : hovered;
 
   return (
     <section
       id="hero"
+      role="button"
+      tabIndex={0}
+      aria-label="Animate the 6R33N mark"
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          handleClick();
+        }
+      }}
       ref={ref}
       onMouseEnter={handleEnter}
       onMouseMove={handleMove}
@@ -63,7 +72,7 @@ export function Hero() {
     >
       <LiquidBackground />
 
-      <div className="relative z-10 min-h-svh flex items-center justify-center">
+      <div className="hero-stage relative z-10 min-h-svh flex items-center justify-center">
         <motion.div
           style={{ x: tx, y: ty }}
           initial={{ opacity: 0, scale: 0.92 }}
